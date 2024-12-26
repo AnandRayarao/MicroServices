@@ -2,6 +2,7 @@ package com.healthcare.AppointmentService.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -17,6 +18,9 @@ public class Appointment {
 
     @Column(name = "doctor_id")
     private UUID doctorId;
+
+    @Column(name = "date")
+    private LocalDate date;
 
     @Column(name = "time_slots")
     private String timeSlots;

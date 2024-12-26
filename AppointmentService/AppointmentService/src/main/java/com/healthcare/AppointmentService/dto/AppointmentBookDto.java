@@ -4,12 +4,13 @@ package com.healthcare.AppointmentService.dto;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.Map;
 import java.util.UUID;
 
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AppointmentDto {
+public class AppointmentBookDto {
     private UUID patientId;
 
     public String getDate() {
@@ -38,16 +39,18 @@ public class AppointmentDto {
         this.doctorId = doctorId;
     }
 
-    public String getTimeSlots() {
+
+    private UUID doctorId;
+
+    public Map<String, Boolean> getTimeSlots() {
         return timeSlots;
     }
 
-    public void setTimeSlots(String timeSlots) {
+    public void setTimeSlots(Map<String, Boolean> timeSlots) {
         this.timeSlots = timeSlots;
     }
 
-    private UUID doctorId;
-    private String timeSlots;
+    private Map<String,Boolean> timeSlots;
 
 
 }
