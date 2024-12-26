@@ -21,46 +21,48 @@ public class DoctorService {
     private DoctorRepository doctorRepository;
 
 
-
-    public Boolean addDoctor(DoctorDto dto){
-
-      Doctor doctor =Doctor.builder().
-              name(dto.getName())
-              .phone(dto.getPhone())
-              .email(dto.getEmail())
-              .contactDetails(dto.getContactDetails())
-              .location(dto.getLocation())
-              .specialization(dto.getSpecialization())
-              .build();
-        doctorRepository.save(doctor);
-        return Boolean.TRUE;
+    public UUID addDoctor(DoctorDto dto) {
+        try {
+            Doctor doctor = Doctor.builder().
+                    name(dto.getName())
+                    .phone(dto.getPhone())
+                    .email(dto.getEmail())
+                    .contactDetails(dto.getContactDetails())
+                    .location(dto.getLocation())
+                    .specialization(dto.getSpecialization())
+                    .build();
+            doctorRepository.save(doctor);
+            return doctor.getDoctorId();
+        } catch (Exception e) {
+            throw new DoctorNotFoundException("exception while adding doctor");
+        }
     }
 
-    public DoctorDto getDoctor(UUID id)  {
-     return doctorRepository.findById(id).map( doctor ->
-    DoctorDto.builder().
-                name(doctor.getName())
-                .phone(doctor.getPhone())
-                .email(doctor.getEmail())
-                .contactDetails(doctor.getContactDetails())
-                .location(doctor.getLocation())
-                .specialization(doctor.getSpecialization())
-                .id(doctor.getDoctorId())
-                .build())
-             .orElseThrow(() -> new DoctorNotFoundException("doctor not found"));
+    public DoctorDto getDoctor(UUID id) {
+        return doctorRepository.findById(id).map(doctor ->
+                        DoctorDto.builder().
+                                name(doctor.getName())
+                                .phone(doctor.getPhone())
+                                .email(doctor.getEmail())
+                                .contactDetails(doctor.getContactDetails())
+                                .location(doctor.getLocation())
+                                .specialization(doctor.getSpecialization())
+                                .id(doctor.getDoctorId())
+                                .build())
+                .orElseThrow(() -> new DoctorNotFoundException("doctor not found"));
     }
 
 
-    public List<DoctorDto> getAllDoctors(){
-        List<Doctor> doctors =  doctorRepository.findAll();
-      return   doctors.stream()
-                .map(DoctorService :: mapToDoctor)
+    public List<DoctorDto> getAllDoctors() {
+        List<Doctor> doctors = doctorRepository.findAll();
+        return doctors.stream()
+                .map(DoctorService::mapToDoctor)
                 .toList();
     }
 
-    private static DoctorDto mapToDoctor(Doctor doc){
-      return   DoctorDto.builder().
-        name(doc.getName())
+    private static DoctorDto mapToDoctor(Doctor doc) {
+        return DoctorDto.builder().
+                name(doc.getName())
                 .phone(doc.getPhone())
                 .email(doc.getEmail())
                 .contactDetails(doc.getContactDetails())
@@ -70,9 +72,9 @@ public class DoctorService {
                 .build();
     }
 
-    public void updateDoctor(UUID uuid,DoctorDto doctorDto) {
+    public void updateDoctor(UUID uuid, DoctorDto doctorDto) {
         Doctor doctor = doctorRepository.findById(uuid).orElse(null);
-        if(null !=doctor){
+        if (null != doctor) {
             doctor.setEmail(doctorDto.getEmail());
             doctorRepository.save(doctor);
         }

@@ -21,9 +21,8 @@ public class DoctorAvailability {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID availability_id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "doctor_id", nullable = false)
-    private Doctor doctor;
+    @Column(nullable = false,name = "doctor_id")
+    private UUID doctorId;
 
     @Column(nullable = false)
     private LocalDate date;

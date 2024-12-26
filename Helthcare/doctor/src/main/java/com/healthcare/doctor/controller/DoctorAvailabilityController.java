@@ -17,9 +17,9 @@ public class DoctorAvailabilityController {
     private DoctorAvailabilityService doctorAvailabilityService;
 
     @PostMapping("/doctorAvailability")
-    private ResponseEntity<Boolean> postDoctorAvailability(@RequestBody DoctorAvailabilityDto doctorAvailabilityDto) {
+    private ResponseEntity<String> postDoctorAvailability(@RequestBody DoctorAvailabilityDto doctorAvailabilityDto) {
     doctorAvailabilityService.addDoctorAvailability(doctorAvailabilityDto);
-    return null;
+    return  new ResponseEntity<>("doctor Added Succesully", HttpStatus.OK);
     }
     @GetMapping("/getDoctorAvailability/{id}")
     private  ResponseEntity<DoctorAvailabilityDto> fetchDoctoravailability(@PathVariable  UUID id, @RequestParam  LocalDate date){
@@ -29,9 +29,7 @@ public class DoctorAvailabilityController {
 
     @PutMapping("/updateTimeslots/{id}")
     private ResponseEntity<Boolean> updateTimeSlots(@PathVariable  UUID id, @RequestParam  LocalDate date,@RequestBody DoctorAvailabilityDto doctorAvailabilityDto){
-
         doctorAvailabilityService.updateDoctorAvailability(id,date,doctorAvailabilityDto);
-
         return  new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
     }
 

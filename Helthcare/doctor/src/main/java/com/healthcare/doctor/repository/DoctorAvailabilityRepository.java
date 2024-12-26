@@ -12,7 +12,7 @@ import java.util.UUID;
 @Repository
 public interface DoctorAvailabilityRepository extends JpaRepository<DoctorAvailability, UUID> {
 
-    Optional<DoctorAvailability> findByDoctor_DoctorIdAndDate(UUID doctorId, LocalDate date);
+    Optional<DoctorAvailability> findByDoctorIdAndDate(UUID doctorId, LocalDate date);
 
 
 }

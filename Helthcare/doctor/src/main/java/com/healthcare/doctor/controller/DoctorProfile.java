@@ -11,15 +11,16 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-public class DoctorProfile {
+public class
+DoctorProfile {
    @Autowired
    private DoctorService doctorService;
 
    @PostMapping("/doctor")
-   private ResponseEntity<Boolean> createDoctor(@RequestBody DoctorDto doctor)
+   private ResponseEntity<String> createDoctor(@RequestBody DoctorDto doctor)
    {
-       doctorService.addDoctor(doctor);
-       return  new ResponseEntity<>(Boolean.TRUE, HttpStatus.OK);
+      UUID id =  doctorService.addDoctor(doctor);
+       return  new ResponseEntity<>("doctor addes succesfully " + id , HttpStatus.OK);
    }
 
     @GetMapping("/doctor/{id}")

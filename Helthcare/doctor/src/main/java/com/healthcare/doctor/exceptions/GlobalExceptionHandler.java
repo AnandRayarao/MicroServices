@@ -18,6 +18,7 @@ public class GlobalExceptionHandler {
         headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
         return new ResponseEntity<>(errorDetails, headers, HttpStatus.NOT_FOUND);
     }
+
     public ResponseEntity<ErrorDetails> handleGlobalException(RuntimeException ex) {
         ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage());
         HttpHeaders headers = new HttpHeaders();

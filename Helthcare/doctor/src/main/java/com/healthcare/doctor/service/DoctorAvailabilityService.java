@@ -2,16 +2,11 @@ package com.healthcare.doctor.service;
 
 import com.healthcare.doctor.dto.DoctorAvailabilityDto;
 import com.healthcare.doctor.exceptions.DoctorNotFoundException;
-import com.healthcare.doctor.model.Doctor;
 import com.healthcare.doctor.model.DoctorAvailability;
 import com.healthcare.doctor.repository.DoctorAvailabilityRepository;
 import com.healthcare.doctor.repository.DoctorRepository;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.print.Doc;
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.Optional;
@@ -30,19 +25,22 @@ public class DoctorAvailabilityService {
 
       DoctorAvailability doctorAvailability =  DoctorAvailability.builder().availability_id(doctorAvailabilityDto.getAvailabilityId())
                         .timeSlots(doctorAvailabilityDto.getTimeSlots())
-              .doctor(doctorRepository.getReferenceById(doctorAvailabilityDto.getDoctorId()))
+              .doctorId(doctorAvailabilityDto.getDoctorId())
                                         .date(doctorAvailabilityDto.getDate())
+              .date(doctorAvailabilityDto.getDate())
                                                 .build();
         doctorAvailabilityRepository.save(doctorAvailability);
     }
 
     public DoctorAvailabilityDto fetchDoctoravailability(UUID id, LocalDate date) {
 
-        Optional<DoctorAvailability> doctorAvailability = Optional.ofNullable(doctorAvailabilityRepository.findByDoctor_DoctorIdAndDate(id, date).orElseThrow(() -> new DoctorNotFoundException("dd")));
+        Optional<DoctorAvailability> doctorAvailability = Optional.ofNullable(doctorAvailabilityRepository.findByDoctorIdAndDate(id, date).orElseThrow(() -> new DoctorNotFoundException("dd")));
         if(doctorAvailability.isPresent()){
           DoctorAvailabilityDto availability = DoctorAvailabilityDto.builder()
                   .availabilityId(doctorAvailability.get().getAvailability_id())
                   .timeSlots(doctorAvailability.get().getTimeSlots())
+                  .date(doctorAvailability.get().getDate())
+                  .doctorId(doctorAvailability.get().getDoctorId())
                   .build();
           return availability;
         }
@@ -51,7 +49,7 @@ public class DoctorAvailabilityService {
 
 
     public void updateDoctorAvailability(UUID id, LocalDate date, DoctorAvailabilityDto doctorAvailabilityDto) {
-      Optional<DoctorAvailability> doctorAvailability = Optional.ofNullable(doctorAvailabilityRepository.findByDoctor_DoctorIdAndDate(id, date).orElseThrow(() -> new DoctorNotFoundException("dd")));
+      Optional<DoctorAvailability> doctorAvailability = Optional.ofNullable(doctorAvailabilityRepository.findByDoctorIdAndDate(id, date).orElseThrow(() -> new DoctorNotFoundException("dd")));
       if(doctorAvailability.isPresent()){
           DoctorAvailability doctorAvailability1 = doctorAvailability.get();
           Map<String,Boolean> mp = doctorAvailability1.getTimeSlots();
