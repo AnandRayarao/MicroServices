@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -31,6 +32,12 @@ public class PatientController {
     private Boolean getPatient(@PathVariable UUID id,@RequestBody PatientDto patientDto){
 
         return patientService.updatePatient(id,patientDto);
+    }
+
+    @GetMapping("/patient")
+    private ResponseEntity<List<PatientDto>> getAllPatients(){
+
+         return new ResponseEntity<>(patientService.getAllPatients(),HttpStatus.OK) ;
     }
 
 }
